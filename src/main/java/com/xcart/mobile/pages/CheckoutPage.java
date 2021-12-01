@@ -9,19 +9,8 @@ public class CheckoutPage extends Utility {
     By emailField = By.cssSelector("#email");
     By continueButton = By.xpath("//button[contains(@class,'regular-button anonymous-continue-button submit')]");
 
-
-
-
-
-
-    public String getTextFromCheckOutPageWelcomeText(){
-       return doGetTextFromElement(checkOutPageWelcomeText);
-    }
-
     public void verifyCheckoutPageWelcomeText(){
-        String expectedMessage = "Log in to your account";
-        String actualMessage = getTextFromCheckOutPageWelcomeText();
-        doVerifyElements(expectedMessage, actualMessage, "Checkout Page Welcome Text is incorrect");
+       verificationMethodUsingWait("Log in to your account", checkOutPageWelcomeText, 100);
     }
 
     public void enterEmailAddressInTheEmailField(){

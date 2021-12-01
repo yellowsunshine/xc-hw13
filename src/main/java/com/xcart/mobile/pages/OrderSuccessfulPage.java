@@ -7,13 +7,8 @@ public class OrderSuccessfulPage extends Utility {
 
     By welcomeText = By.cssSelector("#page-title");
 
-    public String getTextFromOrderSuccessfulPageWelcomeMessage(){
-        return doGetTextFromElement(welcomeText);
-    }
 
-    public void verifyTheSuccessfulPageWelcomeMessage(){
-        String expectedMessage = "Thank you for your order";
-        String actualMessage = getTextFromOrderSuccessfulPageWelcomeMessage();
-        doVerifyElements(expectedMessage, actualMessage, "Display message is incorrect");
+    public void verifyTheSuccessfulPageWelcomeMessage() {
+        verificationMethodUsingWait("Thank you for your order", welcomeText, 200);
     }
 }

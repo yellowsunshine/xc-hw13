@@ -24,7 +24,7 @@ public class HomePage extends Utility {
         doMouseHoverOnFirstThenSecondAndClick(hotDealsLink, bestSellersLink );
     }
 
-    public void clickOnBestSellersSubPage() throws InterruptedException {
+    public void clickOnBestSellersSubPage() {
         doMouseHoverNoClick(hotDealsLink);
         doMouseHoverAndClick(bestSellersLink);
     }

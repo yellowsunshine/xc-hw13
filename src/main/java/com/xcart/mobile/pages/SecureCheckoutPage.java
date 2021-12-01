@@ -14,20 +14,11 @@ public class SecureCheckoutPage extends Utility {
     By password = By.id("password");
     By localShipping = By.id("method128");
     By paymentMethod = By.id("pmethod6");
-    By totalAmount = By.xpath("//div[@class='total clearfix']//span[@class='surcharge-cell']");
     By placeOrderButton = By.cssSelector("button[class='btn regular-button regular-main-button place-order submit']");
 
 
-
-
-    public String getTextFromSecureCheckoutWelcomeText() {
-        return doGetTextFromElement(secureCheckoutWelcomeText);
-    }
-
     public void doVerifySecureCheckoutWelcomeText() {
-        String expectedMessage = "Secure Checkout";
-        String actualMessage = getTextFromSecureCheckoutWelcomeText();
-        doVerifyElements(expectedMessage, actualMessage, "Welcome Text is incorrect");
+        verificationMethodUsingWait("Secure Checkout", secureCheckoutWelcomeText, 50);
     }
 
     public void fillMandatoryNameField(String nm) {
@@ -46,7 +37,7 @@ public class SecureCheckoutPage extends Utility {
         doSendTextToElement(state, st);
     }
 
-    public void clickOnCreateProfileBox(){
+    public void clickOnCreateProfileBox() {
         doClickOnElement(createProfileButton);
     }
 
@@ -54,31 +45,18 @@ public class SecureCheckoutPage extends Utility {
         doSendTextToElement(password, pwd);
     }
 
-    public void selectDeliveryMethodAsLocalShipping(){
+    public void selectDeliveryMethodAsLocalShipping() {
         doClickOnElement(localShipping);
     }
 
-    public void selectPaymentMethodAsCOD(){
+    public void selectPaymentMethodAsCOD() {
         doClickOnElement(paymentMethod);
     }
 
-    public String getTextFromTheTotalAmountElement(){
-        return doGetTextFromElement(totalAmount);
-    }
-
-    public void verifyTheTotalAmount(){
-        String expectedAmount = "$37.03";
-        String actualAmount = getTextFromTheTotalAmountElement();
-        doVerifyElements(expectedAmount, actualAmount, "Total Amount is incorrect");
-    }
-
-    public void clickOnThePlaceOrderButton(){
-        doClickOnElement(placeOrderButton);
+    public void clickOnThePlaceOrderButton() {
+        doWaitUntilVisibilityOfElementLocated(placeOrderButton, 50).click();
 
     }
-
-
-
 
 
 }

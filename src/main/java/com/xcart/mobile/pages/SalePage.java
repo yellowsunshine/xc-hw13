@@ -14,7 +14,6 @@ public class SalePage extends Utility {
 
     By saleWelcomeText = By.xpath("//h1[@id='page-title']");
     By sortBy = By.xpath("//span[@class='sort-by-value']");
-    By allProducts = By.xpath("//h5[@class='product-name']");
     By aToZ = By.partialLinkText("Name A -");
     By preAddToCart = By.xpath("//a[@class='product-thumbnail next-previous-assigned']");
     By addToCart = By.xpath("//button[contains(@class,'regular-button add-to-cart product-add2cart productid-16')]//span[contains(text(),'Add to cart')]");
@@ -24,108 +23,59 @@ public class SalePage extends Utility {
     By viewCart = By.xpath("//span[normalize-space()='View cart']");
     By ddBox = By.cssSelector(".sort-by-value");
     By lowTHigh = By.partialLinkText("Price Low - Hi");
-    By productRating = By.xpath("//div[@class='rating']//div//div//div[@style]");
     By sortByRating = By.xpath("//a[normalize-space()='Rates']");
+    By alphaAllProducts = By.xpath("//h5[@class='product-name']");
 
 
-    public String getTextFromSalePageWelcomeTextElement(){
-        return doGetTextFromElement(saleWelcomeText);
+    public void doVerifyWelcomeTextFromSalePage() {
+        verificationMethodUsingWait("Sale", saleWelcomeText, 50);
     }
 
-    public void doVerifyWelcomeTextFromSalePage(){
-        String expectedMessage = "Sale";
-        String actualMessage = getTextFromSalePageWelcomeTextElement();
-        doVerifyElements(expectedMessage, actualMessage, "Welcome text is not displayed correctly");
-
-    }
-
-    public void mouseHoverOnSortByAndClick(){
+    public void mouseHoverOnSortByAndClick() {
         doMouseHoverAndClick(sortBy);
     }
 
-    public void mouseHoverOnAToZAndClick(){
+    public void mouseHoverOnAToZAndClick() {
         doMouseHoverAndClick(aToZ);
     }
 
 
-
-    public void verifyProductsAreSortedAlphabeticallyFromAToZ() throws InterruptedException {
-
-        List<WebElement> originalList = driver.findElements(By.xpath("//h5[@class='product-name']"));
-        List<String> originalProductRatingList = new ArrayList<>();
-        for (WebElement product : originalList) {
-            originalProductRatingList.add(product.getText());
-        }
-        Collections.sort(originalProductRatingList, Collections.reverseOrder());
-        System.out.println(originalProductRatingList);
-
-        mouseHoverOnSortByAndClick();
-        mouseHoverOnAToZAndClick();
-
-        List<WebElement> afterSortingList = driver.findElements(allProducts);
-        List<String> afterSortingProductName = new ArrayList<>();
-        for (WebElement product : afterSortingList) {
-            afterSortingProductName.add(product.getText());
-        }
-        System.out.println(afterSortingProductName);
-        Assert.assertEquals(originalProductRatingList, afterSortingProductName, "Products are not sorted");
-    }
-
-    public void clickOnAddToCartButton() throws InterruptedException {
+    public void clickOnAddToCartButton() {
         doMouseHoverNoClick(preAddToCart);
-        Thread.sleep(5000);
-        doClickOnElement(addToCart);
-
+        doWaitUntilVisibilityOfElementLocated(addToCart, 50).click();
     }
 
-    public String getTextFromAddToCartConfirmationMessageElement(){
+    public String getTextFromAddToCartConfirmationMessageElement() {
         return doGetTextFromElement(addToCartGreenMessage);
     }
 
-    public void doVerifyAddToCartConfirmationMessage(){
+    public void doVerifyAddToCartConfirmationMessage() {
         String expectedMessage = "Product has been added to your cart";
         String actualMessage = getTextFromAddToCartConfirmationMessageElement();
         doVerifyElements(expectedMessage, actualMessage, "Message is not displayed correctly");
-
     }
 
-    public void clickOnCloseMessageButton(){
+    public void clickOnCloseMessageButton() {
         doClickOnElement(closeMessageButton);
     }
 
-    public void clickOnYourCartAndClickOnViewCart() throws InterruptedException{
-        doClickOnElement(yourCart);
+    public void clickOnYourCartAndClickOnViewCart() throws InterruptedException {
+        doWaitUntilVisibilityOfElementLocated(yourCart, 100).click();
         Thread.sleep(5000);
-        doClickOnElement(viewCart);
+        doWaitUntilVisibilityOfElementLocated(viewCart, 100).click();
     }
 
-    public void verifyProductsAreSortedAccordingToPriceLowToHigh(){
+    public void verifyProductsAreSortedAccordingToPriceLowToHigh() {
         verifyTheSortingOrderOfPriceLowToHighIsCorrect(By.className("product-price"), ddBox, lowTHigh);
     }
 
-    public void verifyProductsAreSortedAccordingToRatingHighToLow() throws InterruptedException {
-        List<WebElement> originalList = driver.findElements(productRating);
-
-        List<Integer> originalProductRating = new ArrayList<>();
-        for (WebElement rating :originalList) {
-        originalProductRating.add(rating.getAttribute("style").indexOf(3, 6));
-        }
-
-        Collections.sort(originalProductRating,Collections.reverseOrder());
-        doMouseHoverNoClick(sortBy);
-        doMouseHoverAndClick(sortByRating);
-        Thread.sleep(3000);
-        List<WebElement> afterSortingList = driver.findElements(productRating);
-        List<Integer> afterSortingProductRating = new ArrayList<>();
-        for (WebElement rating1 :afterSortingList){
-            afterSortingProductRating.add(rating1.getAttribute("style").indexOf(2, 6));
-        }
-        System.out.println(afterSortingProductRating);
-        Assert.assertEquals(originalProductRating,afterSortingProductRating,"products are not sorted");
-
+    public void verifyProductsAreSortedAlphabetically() throws InterruptedException {
+        verifyProductsAreSortedAlphabeticallyFromAToZ(alphaAllProducts, ddBox, aToZ);
     }
 
-
+    public void verifyProductsAreSortedAccordingToTheirRatings() throws InterruptedException {
+        verifyProductsAreSortedAccordingToRatingHighToLow(sortByRating, ddBox, sortByRating);
+    }
 
 
 }

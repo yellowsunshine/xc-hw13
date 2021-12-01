@@ -1,5 +1,4 @@
 package com.xcart.mobile.testsuite;
-
 import com.xcart.mobile.pages.*;
 import com.xcart.mobile.testbase.TestBase;
 import org.testng.annotations.Test;

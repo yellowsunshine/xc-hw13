@@ -7,17 +7,13 @@ import org.testng.annotations.Test;
 public class ShoppingTest extends TestBase {
 
     BestSellersPage bestSellersPage = new BestSellersPage();
-    ComingSoonPage comingSoonPage = new ComingSoonPage();
-    ContactUsPage contactUsPage = new ContactUsPage();
     HomePage homePage = new HomePage();
-    NewMenuPage newMenuPage = new NewMenuPage();
     SalePage salePage = new SalePage();
-    ShippingPage shippingPage = new ShippingPage();
     ShoppingCartPage shoppingCartPage = new ShoppingCartPage();
     CheckoutPage checkoutPage = new CheckoutPage();
     SecureCheckoutPage secureCheckoutPage = new SecureCheckoutPage();
     OrderSuccessfulPage orderSuccessfulPage = new OrderSuccessfulPage();
-    VinylIdolzGhosBustersPage vinylIdolzGhosBustersPage = new VinylIdolzGhosBustersPage();
+    VinylIdolzGhosBustersPage vinylIdolzGhostBustersPage = new VinylIdolzGhosBustersPage();
 
     @Test
     public void verifyThatUserShouldPlaceOrderSuccessfullyForAvengersProduct() throws InterruptedException {
@@ -31,15 +27,12 @@ public class ShoppingTest extends TestBase {
         salePage.clickOnYourCartAndClickOnViewCart();
 
         shoppingCartPage.verifyShoppingCartPageText();
-        Thread.sleep(5000);
         shoppingCartPage.clearQuantityField();
-        Thread.sleep(8000);
+        Thread.sleep(5000);
+        shoppingCartPage.sendUpdatedQuantityToTheQuantityField("");
         shoppingCartPage.sendUpdatedQuantityToTheQuantityField("2");
-        Thread.sleep(5000);
         shoppingCartPage.verifyTheTextYourShoppingCart2Items();
-        Thread.sleep(5000);
         shoppingCartPage.verifyTheSubtotalAmount();
-        Thread.sleep(5000);
         shoppingCartPage.verifyTheTotalAmount();
         shoppingCartPage.clickOnTheGoToCheckoutButton();
 
@@ -57,9 +50,8 @@ public class ShoppingTest extends TestBase {
         secureCheckoutPage.selectDeliveryMethodAsLocalShipping();
         secureCheckoutPage.selectPaymentMethodAsCOD();
         Thread.sleep(5000);
-        secureCheckoutPage.verifyTheTotalAmount();
         secureCheckoutPage.clickOnThePlaceOrderButton();
-
+        Thread.sleep(5000);
         orderSuccessfulPage.verifyTheSuccessfulPageWelcomeMessage();
     }
 
@@ -69,24 +61,19 @@ public class ShoppingTest extends TestBase {
 
         bestSellersPage.verifyWelcomeTextFromBestSellersPage();
         bestSellersPage.mouseHoverOnSortBy();
-        Thread.sleep(10000);
         bestSellersPage.clickOnNameAtoZ();
-        Thread.sleep(3000);
         bestSellersPage.clickOnAddToCartButtonOfVinylIdolGhostBusters();
 
-        vinylIdolzGhosBustersPage.clickOnAddToCartButton();
-        vinylIdolzGhosBustersPage.verifyProductHasBeenAddedToYourCartMessage();
-        vinylIdolzGhosBustersPage.closeTheProductHasBeenAddedToYourCartMessage();
-        Thread.sleep(3000);
-        vinylIdolzGhosBustersPage.clickOnYourCartAndClickOnViewCart();
+        vinylIdolzGhostBustersPage.clickOnAddToCartButton();
+        vinylIdolzGhostBustersPage.verifyProductHasBeenAddedToYourCartMessage();
+        vinylIdolzGhostBustersPage.closeTheProductHasBeenAddedToYourCartMessage();
+        vinylIdolzGhostBustersPage.clickOnYourCartAndClickOnViewCart();
 
         shoppingCartPage.verifyShoppingCartPageText();
         shoppingCartPage.clickOnEmptyYourCartLink();
-        Thread.sleep(2000);
         shoppingCartPage.verifyTheTextAreYouSureYouWantToClearTheCartFromAlert();
         shoppingCartPage.clickOKOnAlert();
         shoppingCartPage.verifyTheItemDeletedFromYourCartMessage();
-        Thread.sleep(3000);
         shoppingCartPage.verifyYourCartIsEmptyMessage();
     }
 }

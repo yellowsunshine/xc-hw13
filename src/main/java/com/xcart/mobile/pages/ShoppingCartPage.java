@@ -2,6 +2,7 @@ package com.xcart.mobile.pages;
 
 import com.xcart.mobile.utility.Utility;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 public class ShoppingCartPage extends Utility {
 
@@ -17,95 +18,74 @@ public class ShoppingCartPage extends Utility {
     By emptyCartMessage = By.xpath("//h1[normalize-space()='Your cart is empty']");
 
 
-    public String getTextFromShoppingCartPageText() {
-        return doGetTextFromElement(shoppingCartText);
-    }
-
     public void verifyShoppingCartPageText() {
-        String expectedMessage = "Your shopping cart - 1 item";
-        doVerifyElements(expectedMessage, getTextFromShoppingCartPageText(), "Shopping cart display text is not displayed correctly");
+        //String expectedMessage = "Your shopping cart - 1 item";
+        //doVerifyElements(expectedMessage, getTextFromShoppingCartPageText(), "Shopping cart display text is not displayed correctly");
+        verificationMethodUsingWait("Your shopping cart - 1 item", shoppingCartText, 100);
     }
 
-    public void clearQuantityField() throws InterruptedException {
-        doFindElementAndClearText(quantityClear);
-        Thread.sleep(2000);
+    public void clearQuantityField() {
+        doWaitUntilVisibilityOfElementLocated(quantityClear, 50).clear();
     }
 
-    public void sendUpdatedQuantityToTheQuantityField(String quantity){
-        doSendTextToElement(addQuantity, quantity);
+    public void sendUpdatedQuantityToTheQuantityField(String quantity) {
+        doWaitUntilVisibilityOfElementLocated(addQuantity, 100).sendKeys(quantity);
     }
 
-    public String getTextFromShoppingCartItemMessage(){
-        return doGetTextFromElement(shoppingCartItemsText);
+    public void verifyTheTextYourShoppingCart2Items() {
+        String expectedMessage = doWaitUntilTitleIsEqualTo("Your shopping cart - 2 items");
+        verificationMethodUsingWait(expectedMessage, shoppingCartItemsText, 150);
     }
 
-    public void verifyTheTextYourShoppingCart2Items(){
-        String expectedQty = "Your shopping cart - 2 items";
-        String actualQty = getTextFromShoppingCartItemMessage();
-        doVerifyElements(expectedQty, actualQty, "Message is displayed incorrectly");
-    }
-
-    public String getTextFromSubtotalElement(){
+    public String getTextFromSubtotalElement() {
         return doGetTextFromElement(subtotal);
     }
 
 
-    public void verifyTheSubtotalAmount(){
+    public void verifyTheSubtotalAmount() {
         String expectedSubtotal = "$29.98";
         String actualSubtotal = getTextFromSubtotalElement();
         doVerifyElements(expectedSubtotal, actualSubtotal, "Subtotal Amount is Incorrect");
+        //verificationMethodUsingWait("$29.98", subtotal, 150 );
     }
 
-    public String getTextFromTotalAmountElement(){
+    public String getTextFromTotalAmountElement() {
         return doGetTextFromElement(totalAmount);
     }
 
 
-    public void verifyTheTotalAmount(){
+    public void verifyTheTotalAmount() {
         String expectedSubtotal = "$36.00";
         String actualSubtotal = getTextFromTotalAmountElement();
         doVerifyElements(expectedSubtotal, actualSubtotal, "Total Amount is Incorrect");
     }
 
-    public void clickOnTheGoToCheckoutButton(){
+    public void clickOnTheGoToCheckoutButton() {
         doClickOnElement(checkoutButton);
     }
 
-    public void clickOnEmptyYourCartLink(){
+    public void clickOnEmptyYourCartLink() {
         doClickOnElement(emptyCartLink);
     }
 
-    public void verifyTheTextAreYouSureYouWantToClearTheCartFromAlert(){
+    public void verifyTheTextAreYouSureYouWantToClearTheCartFromAlert() {
         String actualAlert = doGetTextFromAlert();
-        String expectedAlert = "Are you sure you want to clear your cart?";
+        String expectedAlert = "Are you sure you want to clear your cart?" ;
         doVerifyElements(expectedAlert, actualAlert, "Alert message is incorrect");
+
     }
 
-    public void clickOKOnAlert(){
+    public void clickOKOnAlert() {
         doAcceptAlert();
     }
 
-    public String getTextFromDeletedMessage(){
-        return doGetTextFromElement(itemDeletedMessage);
+    public void verifyTheItemDeletedFromYourCartMessage() {
+        verificationMethodUsingWait("Item(s) deleted from your cart", itemDeletedMessage, 50);
     }
 
-    public void verifyTheItemDeletedFromYourCartMessage(){
-        String expectedMessage = "Item(s) deleted from your cart";
-        String actualMessage = getTextFromDeletedMessage();
-        doVerifyElements(expectedMessage, actualMessage, "Message is displayed incorrectly");
+    public void verifyYourCartIsEmptyMessage() {
+        verificationMethodUsingWait("Your cart is empty", emptyCartMessage, 50);
     }
-
-    public String getTextFromYourCartIsEmptyMessage(){
-        return doGetTextFromElement(emptyCartMessage);
-    }
-
-    public void verifyYourCartIsEmptyMessage(){
-        String expectedMessage = "Your cart is empty";
-        String actualMessage = getTextFromYourCartIsEmptyMessage();
-        doVerifyElements(expectedMessage, actualMessage, "Message is displayed incorrectly");
-    }
-
-
 
 
 }
